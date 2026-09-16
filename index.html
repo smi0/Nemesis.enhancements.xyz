@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ArchHub</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #08090d;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* Animated background */
+body::before {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(70,120,255,.13), transparent 25%),
+    radial-gradient(circle at 80% 70%, rgba(140,70,255,.10), transparent 25%);
+  animation: backgroundMove 12s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes backgroundMove {
+  from { transform: translate(0,0) scale(1); }
+  to { transform: translate(5%, -4%) scale(1.12); }
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding: 18px 6%;
+  background: rgba(8,9,13,.78);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid #242630;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-size: 25px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.logo span {
+  color: #777d8c;
+}
+
+nav {
+  display: flex;
+  gap: 12px;
+}
+
+nav a {
+  color: #aaa;
+  text-decoration: none;
+  padding: 10px 15px;
+  border-radius: 10px;
+  transition: .2s;
+}
+
+nav a:hover {
+  color: white;
+  background: #171922;
+  transform: translateY(-2px);
+}
+
+.hero {
+  max-width: 1100px;
+  margin: 80px auto;
+  padding: 0 22px;
+}
+
+.card {
+  background: rgba(20,21,27,.9);
+  border: 1px solid #30323c;
+  border-radius: 25px;
+  padding: 55px;
+  box-shadow: 0 20px 80px rgba(0,0,0,.35);
+  animation: cardIn .8s ease-out both;
+}
+
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: translateY(35px) scale(.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid #444752;
+  border-radius: 999px;
+  padding: 10px 17px;
+  color: #c5c7ce;
+  margin-bottom: 25px;
+}
+
+.dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #35d69a;
+  box-shadow: 0 0 15px #35d69a;
+  animation: pulse 1.8s infinite;
+}
+
+@keyframes pulse {
+  50% { opacity: .35; transform: scale(.75); }
+}
+
+h1 {
+  font-size: clamp(48px, 9vw, 90px);
+  letter-spacing: -5px;
+  margin-bottom: 18px;
+  animation: titleIn 1s ease both;
+}
+
+@keyframes titleIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.description {
+  color: #9da0aa;
+  font-size: 20px;
+  line-height: 1.65;
+  max-width: 750px;
+}
+
+.buttons {
+  display: flex;
+  gap: 14px;
+  margin-top: 35px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 17px 27px;
+  border-radius: 13px;
+  text-decoration: none;
+  font-weight: 700;
+  transition: .25s ease;
+}
+
+.btn:hover {
+  transform: translateY(-4px);
+}
+
+.purchase {
+  background: white;
+  color: #090a0e;
+  box-shadow: 0 0 0 rgba(255,255,255,0);
+}
+
+.purchase:hover {
+  box-shadow: 0 12px 40px rgba(255,255,255,.16);
+}
+
+.secondary {
+  background: #17181e;
+  border: 1px solid #30323b;
+  color: white;
+}
+
+section {
+  max-width: 1100px;
+  margin: 30px auto;
+  padding: 0 22px;
+}
+
+.feature-card {
+  background: #111218;
+  border: 1px solid #292b34;
+  border-radius: 22px;
+  padding: 35px;
+  margin-bottom: 20px;
+  transition: .25s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  border-color: #464955;
+  box-shadow: 0 15px 50px rgba(0,0,0,.3);
+}
+
+.feature-card h2 {
+  margin-bottom: 15px;
+}
+
+.feature-card p,
+.feature-card li {
+  color: #9da0aa;
+  line-height: 1.7;
+}
+
+.feature-card ul {
+  padding-left: 22px;
+}
+
+.loader {
+  margin-top: 20px;
+  background: #08090d;
+  border: 1px solid #30323c;
+  border-radius: 12px;
+  padding: 18px;
+  overflow-x: auto;
+  color: #d5d7dd;
+  font-family: monospace;
+  font-size: 14px;
+}
+
+.copy {
+  margin-top: 12px;
+  border: 0;
+  padding: 12px 18px;
+  border-radius: 10px;
+  background: white;
+  color: #111;
+  font-weight: 700;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.copy:hover {
+  transform: translateY(-2px);
+}
+
+footer {
+  text-align: center;
+  color: #686b76;
+  padding: 50px 20px;
+}
+
+@media (max-width: 650px) {
+  header {
+    padding: 15px 20px;
+  }
+
+  nav a {
+    display: none;
+  }
+
+  .hero {
+    margin: 45px auto;
+  }
+
+  .card {
+    padding: 30px 24px;
+  }
+
+  h1 {
+    letter-spacing: -3px;
+  }
+
+  .description {
+    font-size: 17px;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">ArchHub<span>.gg</span></div>
+
+  <nav>
+    <a href="#features">Features</a>
+    <a href="#loader">Loader</a>
+    <a href="https://nemesis-win.mysellauth.com/product/nemesiswin"
+       target="_blank">
+      Purchase
+    </a>
+  </nav>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="card">
+
+    <div class="badge">
+      <span class="dot"></span>
+      ArchHub Release
+    </div>
+
+    <h1>ArchHub</h1>
+
+    <p class="description">
+      A clean, fast and modern hub built for the ArchHub community.
+      Explore the features, grab the loader, or purchase access.
+    </p>
+
+    <div class="buttons">
+      <a
+        class="btn purchase"
+        href="https://nemesis-win.mysellauth.com/product/nemesiswin"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Purchase
+      </a>
+
+      <a class="btn secondary" href="#features">
+        View Features
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<section id="features">
+
+  <div class="feature-card">
+    <h2>ArchHub Features</h2>
+
+    <ul>
+      <li>Modern animated interface</li>
+      <li>Responsive mobile design</li>
+      <li>Smooth hover effects</li>
+      <li>Animated status indicator</li>
+      <li>Fast navigation</li>
+    </ul>
+  </div>
+
+</section>
+
+<section id="loader">
+
+  <div class="feature-card">
+    <h2>Freeloader</h2>
+
+    <p>
+      Use the loader provided by ArchHub.
+    </p>
+
+    <div class="loader" id="loaderCode">loadstring(game:HttpGet("https://raw.githubusercontent.com/smi0/NemesisCheatswin/refs/heads/main/loader.lua"))()</div>
+
+    <button class="copy" onclick="copyLoader()">
+      Copy Loader
+    </button>
+  </div>
+
+</section>
+
+</main>
+
+<footer>
+  © 2026 ArchHub. All rights reserved.
+</footer>
+
+<script>
+function copyLoader() {
+  const code = document.getElementById("loaderCode").innerText;
+
+  navigator.clipboard.writeText(code).then(() => {
+    const button = document.querySelector(".copy");
+    button.innerText = "Copied!";
+
+    setTimeout(() => {
+      button.innerText = "Copy Loader";
+    }, 1500);
+  });
+}
+</script>
+
+</body>
+</html>
